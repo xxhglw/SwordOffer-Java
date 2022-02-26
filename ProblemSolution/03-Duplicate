@@ -1,0 +1,60 @@
+/**
+ * 第03题
+ * 在一个长度为n的数组里的所有数字都在0到n-1的范围内，找出数组中任意一个重复的数字
+ *
+ * @author xxh
+ * @date 2022/2/26
+ */
+ 
+ /**
+     * 解法一：利用题中数组的特点（数组中的元素小于数组长度）
+     * 时间复杂度是O(n)，空间复杂度是O(1)
+     */
+ class Solution {
+    public int findRepeatNumber(int[] nums) {
+        int n = nums.length,res = 0;
+        //注意取值范围为0-(n-1)，考虑原地hash，鸽巢原理
+        for(int i = 0;i < n;i++){
+            //注意当nums[i] == i时，相当于与自己比较，并非重复，表明该数字已在正确位置，i++检查下一个位置的数字
+            while(nums[i] != i)
+                if(nums[nums[i]] == nums[i]){
+                    res = nums[i];
+                    break;
+                }
+                else{
+                    //注意这里要交换（是将其放入正确的hash位置，且不会消除该位置的元素），而不是仅nums[nums[i]] = nums[i]
+                    int temp = nums[nums[i]];
+                    nums[nums[i]] = nums[i];
+                    nums[i] = temp;
+                }
+                
+        }
+
+        return res;
+    }
+}
+
+/**
+     * 解法二：利用辅助空间 HashSet
+     * 时间复杂度是O(n)，空间复杂度是O(n)
+     *
+     * @param numbers
+     * @return
+     */
+    public static Integer duplicate2(int numbers[]) {
+        if (numbers == null || numbers.length == 0) {
+            return null;
+        }
+        if (numbers.length == 1) {
+            return numbers[0];
+        }
+
+        int length = numbers.length;
+        HashSet<Integer> hashSet = new HashSet<>();
+        for (int i = 0; i < length; i++) {
+            if (!hashSet.add(numbers[i])) {
+                return numbers[i];
+            }
+        }
+        return null;
+    }
