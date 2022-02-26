@@ -7,9 +7,9 @@
  */
  
  /**
-     * 解法一：利用题中数组的特点（数组中的元素小于数组长度）
-     * 时间复杂度是O(n)，空间复杂度是O(1)
-     */
+  * 解法一：利用题中数组的特点（数组中的元素小于数组长度）
+  * 时间复杂度是O(n)，空间复杂度是O(1)
+  */
  class Solution {
     public int findRepeatNumber(int[] nums) {
         int n = nums.length,res = 0;
@@ -34,27 +34,22 @@
     }
 }
 
-/**
-     * 解法二：利用辅助空间 HashSet
-     * 时间复杂度是O(n)，空间复杂度是O(n)
-     *
-     * @param numbers
-     * @return
-     */
-    public static Integer duplicate2(int numbers[]) {
-        if (numbers == null || numbers.length == 0) {
-            return null;
-        }
-        if (numbers.length == 1) {
-            return numbers[0];
-        }
-
-        int length = numbers.length;
-        HashSet<Integer> hashSet = new HashSet<>();
-        for (int i = 0; i < length; i++) {
-            if (!hashSet.add(numbers[i])) {
-                return numbers[i];
+ /**
+  * 解法二：利用辅助空间
+  * 时间复杂度是O(n)，空间复杂度是O(n)
+  */
+class Solution {
+    public int findRepeatNumber(int[] nums) {
+        int n = nums.length,res = 0;
+        int[] temp = new int[n];
+        for(int x:nums)
+            temp[x]++;
+        for(int i = 0;i < n;i++)
+            if(temp[i]>1){
+                res = i;
+                break;
             }
-        }
-        return null;
+                
+        return res;
     }
+}
