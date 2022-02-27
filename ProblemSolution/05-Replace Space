@@ -1,0 +1,31 @@
+/**
+ * 第05题
+ * 请实现一个函数，把字符串 s 中的每个空格替换成"%20"。
+ *
+ * @author xxh
+ * @date 2022/2/27
+ */
+ 
+  /**
+  * 解法一：遍历即可
+  * 时间复杂度是O(n)，空间复杂度是O(n)
+  * 注：由于java的特性，String为不可变，只能新建一个字符串存结果。
+  *     这里推荐使用StringBuilder，效率较高。
+  *     不推荐直接用库函数return s.replace(" ", '%20')。
+  */
+
+  class Solution {
+    public String replaceSpace(String s) {
+        StringBuilder res = new StringBuilder();
+        int n = s.length();
+        for(int i = 0;i < n;i++){
+            char temp = s.charAt(i);
+            if(temp == ' ')
+                res.append("%20");
+            else
+                res.append(temp);
+        }
+        return res.toString();
+    }
+}
+  
