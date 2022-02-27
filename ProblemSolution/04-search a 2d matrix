@@ -1,0 +1,35 @@
+/**
+ * 第04题
+ * 编写一个高效的算法来搜索 m x n 矩阵 matrix 中的一个目标值 target 。该矩阵具有以下特性：
+      每行的元素从左到右升序排列。
+      每列的元素从上到下升序排列。
+ *
+ * @author xxh
+ * @date 2022/2/27
+ */
+ 
+ /**
+  * 解法一：不同侧的值与该值的大小关系一定，Z字搜索
+  * 时间复杂度是O(m+n)，空间复杂度是O(1)
+  * 引用leetcode上一位兄弟的奇思妙想：站在右上角看。这个矩阵其实就像是一个Binary Search Tree。
+  */
+  
+  
+ class Solution {
+    public boolean findNumberIn2DArray(int[][] matrix, int target) {
+        //不妨在思考不出时，换个思路，选择右上角开始思索
+        int m = matrix.length;
+        if(m == 0)
+            return false;
+        int n = matrix[0].length;
+        for(int i = 0, j = n-1;i < m && j >= 0;){
+            if(matrix[i][j] < target)
+                i++;
+            else if(matrix[i][j] > target)
+                j--;
+            else
+                return true;
+        }
+        return false;
+    }
+}
