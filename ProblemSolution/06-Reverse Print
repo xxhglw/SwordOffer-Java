@@ -1,0 +1,33 @@
+/**
+ * 第06题
+ * 输入一个链表的头节点，从尾到头反过来返回每个节点的值（用数组返回）。
+ *
+ * @author xxh
+ * @date 2022/2/27
+ */
+ 
+ /**
+  * 解法一：辅助栈
+  * 时间复杂度是O(n)，空间复杂度是O(n)
+  * 由于题目是返回数组，递归较复杂，借助了辅助栈
+  */
+  
+  class Solution {
+    public int[] reversePrint(ListNode head) {
+        int n = 0;
+        Stack<Integer> temp = new Stack<Integer>();
+        while(head != null){
+            temp.push(head.val);
+            head = head.next;
+            n++;
+        }
+        int[] res = new int[n];
+        n = 0;
+        while(!temp.isEmpty()){
+            res[n] = temp.pop();
+            n++;
+        }
+        return res;
+    }
+}
+
