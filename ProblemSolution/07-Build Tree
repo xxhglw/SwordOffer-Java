@@ -1,0 +1,40 @@
+/**
+ * 第07题
+ * 输入某二叉树的前序遍历和中序遍历的结果，请构建该二叉树并返回其根节点。
+   假设输入的前序遍历和中序遍历的结果中都不含重复的数字。
+ 
+ * @author xxh
+ * @date 2022/2/28
+ */
+ 
+ /**
+  * 解法一：递归
+  * 时间复杂度是O(n)，空间复杂度是O(n)
+  * 
+  */
+  
+  class Solution {
+    Map<Integer,Integer> temp = new HashMap<Integer,Integer>();
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        int n = preorder.length;
+        //借助HashMap快速定位节点再中序遍历的位置
+        for(int i = 0;i < n;i++)
+            temp.put(inorder[i],i);
+        return build(preorder,inorder,0,n-1,0,n-1);
+
+    }
+    public TreeNode build(int[] preorder, int[] inorder, int pre_l, int pre_r, int in_l, int in_r){
+        if(pre_l > pre_r||in_l > in_r)
+            return null;
+        //前序的第一个节点为根节点
+        TreeNode root = new TreeNode(preorder[pre_l]);
+        //定位其在中序遍历的位置
+        int pos = temp.get(preorder[pre_l]);
+        //中序遍历，其左侧的节点均为其左子树上的节点。
+        int amount_l = pos - in_l;
+        //通过左子树和右子树的范围，递归寻找其左子节点和右子节点
+        root.left = build(preorder, inorder, pre_l + 1, pre_l + amount_l, in_l, pos - 1);
+        root.right = build(preorder, inorder, pre_l + amount_l+1, pre_r, pos + 1, in_r);
+        return root;
+    }
+}
