@@ -1,0 +1,71 @@
+/**
+ * 第09题
+ * 用两个栈实现一个队列。队列的声明如下，请实现它的两个函数 appendTail 和 deleteHead
+   分别完成在队列尾部插入整数和在队列头部删除整数的功能。(若队列中没有元素，deleteHead 操作返回 -1 )
+ 
+ * @author xxh
+ * @date 2022/3/1
+ */
+ 
+ 
+  /**
+  * 解法一：使用Stack，并在添加时维护队列性质，效率较低
+  * 时间复杂度是O(n^2)，空间复杂度是O(n)
+  * 
+  */
+  
+  class CQueue {
+    Stack<Integer> temp_a;
+    Stack<Integer> temp_b;
+    public CQueue() {
+        temp_a = new Stack<Integer>();
+        temp_b = new Stack<Integer>();
+    }
+    
+    public void appendTail(int value) {
+        while(!temp_a.isEmpty()){
+            temp_b.push(temp_a.pop());
+        }
+        temp_a.push(value);
+        while(!temp_b.isEmpty()){
+            temp_a.push(temp_b.pop());
+        }
+    }
+    
+    public int deleteHead() {
+        if(!temp_a.isEmpty())
+            return temp_a.pop();
+        else
+            return -1;
+    }
+}
+
+
+  /**
+  * 解法一：使用LinkedList，并在删除时维护队列性质，效率提升
+  * 时间复杂度是O(n^2)，空间复杂度是O(n)
+  * 
+  */
+  
+  class CQueue {
+    LinkedList<Integer> temp_a;
+    LinkedList<Integer> temp_b;
+    public CQueue() {
+        temp_a = new LinkedList<Integer>();
+        temp_b = new LinkedList<Integer>();
+    }
+    
+    public void appendTail(int value) {
+        temp_a.push(value);
+    }
+    
+    public int deleteHead() {
+        if(temp_b.isEmpty())
+            if(temp_a.isEmpty())
+                return -1;
+            else
+                while(!temp_a.isEmpty())
+                    temp_b.push(temp_a.pop());
+        return temp_b.pop();
+    }
+}
