@@ -67,7 +67,7 @@ class Solution {
 }
 
  /**
-  * 解法一：回溯法
+  * 回溯法优化
   * 时间复杂度是O(n*m*len(word))，空间复杂度是O(len(word))
   
   * 执行用时：4 ms, 在所有 Java 提交中击败了98.31%的用户
