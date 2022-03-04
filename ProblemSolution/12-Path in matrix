@@ -1,0 +1,123 @@
+/**
+ * 第12题
+ * 给定一个 m x n 二维字符网格 board 和一个字符串单词 word 。如果 word 存在于网格中，返回 true ；否则，返回 false 。
+   单词必须按照字母顺序，通过相邻的单元格内的字母构成，其中“相邻”单元格是那些水平相邻或垂直相邻的单元格。同一个单元格内的字母不允许被重复使用。
+
+ * @author xxh
+ * @date 2022/3/4
+ */
+
+   /**
+  * 解法一：回溯法
+  * 时间复杂度是O(n*m*len(word))，空间复杂度是O(n*m)
+  
+  * leetcode会超时,下面贴出优化版
+  */
+
+
+class Solution {
+    boolean flag = false;
+    public boolean exist(char[][] board, String word) {
+        int m = board.length, n = board[0].length;
+        
+        for(int i = 0;i < m;i++)
+            for(int j = 0;j < n;j++){
+                int[][] visit = new int [m][n];
+                back(board, word, visit, 0, i, j);
+            }
+        return flag;
+        
+        
+    }
+    public void back(char[][] board, String word,int[][] visit, int pos, int i, int j){
+        if(visit[i][j] == 1)
+            return;
+        if(board[i][j] != word.charAt(pos))
+            return;
+        visit[i][j] = 1;
+        pos++;
+        if(pos == word.length()){
+            flag = true;
+            return;
+        }
+        for(int d = 0;d < 4;d++){
+            switch(d){
+                case 0:
+                    if(i>0)
+                        back(board, word, visit, pos, i-1, j);
+                    break;
+                case 1:
+                    if(j<board[0].length-1)
+                        back(board, word, visit, pos, i, j+1);
+                    break;
+                case 2:
+                    if(i<board.length-1)
+                        back(board, word, visit, pos, i+1, j);
+                    break;
+                case 3:
+                    if(j>0)
+                        back(board, word, visit, pos, i, j-1);
+                    break;
+
+            }
+        }
+        visit[i][j] = 0;
+        return;
+    }
+}
+
+
+
+
+class Solution {
+    boolean flag = false;
+    public boolean exist(char[][] board, String word) {
+        int m = board.length, n = board[0].length;
+        
+        for(int i = 0;i < m;i++)
+            for(int j = 0;j < n;j++){
+                back(board, word, 0, i, j);
+            }
+        return flag;
+        
+        
+    }
+    public void back(char[][] board, String word, int pos, int i, int j){
+        //由于使用标记数组会超时
+        //采用修改以访问元素为'/'来避免使用标记数组
+        char temp = board[i][j];
+        if(board[i][j] == '/')
+            return;
+        if(board[i][j] != word.charAt(pos))
+            return;
+        board[i][j] = '/';
+        pos++;
+        if(pos == word.length()){
+            flag = true;
+            return;
+        }
+        for(int d = 0;d < 4;d++){
+            switch(d){
+                case 0:
+                    if(i>0)
+                        back(board, word, pos, i-1, j);
+                    break;
+                case 1:
+                    if(j<board[0].length-1)
+                        back(board, word, pos, i, j+1);
+                    break;
+                case 2:
+                    if(i<board.length-1)
+                        back(board, word, pos, i+1, j);
+                    break;
+                case 3:
+                    if(j>0)
+                        back(board, word, pos, i, j-1);
+                    break;
+
+            }
+        }
+        board[i][j] = temp;
+        return;
+    }
+}
