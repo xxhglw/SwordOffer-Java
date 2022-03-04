@@ -66,53 +66,64 @@ class Solution {
     }
 }
 
-
+ /**
+  * 解法一：回溯法
+  * 时间复杂度是O(n*m*len(word))，空间复杂度是O(len(word))
+  
+  * 执行用时：4 ms, 在所有 Java 提交中击败了98.31%的用户
+    内存消耗：43.4 MB, 在所有 Java 提交中击败了13.13%的用户
+    通过测试用例：87 / 87
+  */
 
 
 class Solution {
     boolean flag = false;
     public boolean exist(char[][] board, String word) {
         int m = board.length, n = board[0].length;
-        
+        //用char数组避免charAt()
+        char[] words = word.toCharArray();
         for(int i = 0;i < m;i++)
             for(int j = 0;j < n;j++){
-                back(board, word, 0, i, j);
+                back(board, words, 0, i, j);
             }
         return flag;
         
         
     }
-    public void back(char[][] board, String word, int pos, int i, int j){
+    public void back(char[][] board, char[] words, int pos, int i, int j){
         //由于使用标记数组会超时
         //采用修改以访问元素为'/'来避免使用标记数组
         char temp = board[i][j];
         if(board[i][j] == '/')
             return;
-        if(board[i][j] != word.charAt(pos))
+        if(board[i][j] != words[pos])
             return;
         board[i][j] = '/';
         pos++;
-        if(pos == word.length()){
+        if(pos == words.length){
             flag = true;
             return;
         }
         for(int d = 0;d < 4;d++){
+            //当找到字符后，直接返回
+            if(flag == true)
+                return;
             switch(d){
                 case 0:
                     if(i>0)
-                        back(board, word, pos, i-1, j);
+                        back(board, words, pos, i-1, j);
                     break;
                 case 1:
                     if(j<board[0].length-1)
-                        back(board, word, pos, i, j+1);
+                        back(board, words, pos, i, j+1);
                     break;
                 case 2:
                     if(i<board.length-1)
-                        back(board, word, pos, i+1, j);
+                        back(board, words, pos, i+1, j);
                     break;
                 case 3:
                     if(j>0)
-                        back(board, word, pos, i, j-1);
+                        back(board, words, pos, i, j-1);
                     break;
 
             }
