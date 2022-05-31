@@ -62,11 +62,11 @@ class Singleton2 {
 }
 
 /**
- * 5.线程安全的懒汉式：双重检查锁（同步代码块）
+ * 5.线程安全的懒汉式：双重检查锁（同步代码块）（注意ourInstance需要加volatile修饰，防止指令重排）
  * 加锁前加一个判断，只会在实例未创建时试图加锁
  */
 class Singleton3 {
-    private static Singleton3 ourInstance;
+    private static volatile Singleton3 ourInstance;
     public static Singleton3 getInstance() {
         if (null == ourInstance) {
             synchronized (Singleton3.class) {
